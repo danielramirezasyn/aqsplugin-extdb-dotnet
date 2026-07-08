@@ -1,0 +1,22 @@
+# .NET build output
+bin/
+obj/
+
+# Visual Studio / VS Code / Rider
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.suo
+.idea/
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+
+# macOS
+.DS_Store
+
+# Runtime data / volumes mounted locally (if any)
+data/
+*.log

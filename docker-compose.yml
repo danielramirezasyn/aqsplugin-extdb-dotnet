@@ -1,0 +1,38 @@
+services:
+  aqsplugin-extdb-dotnet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aqsplugin-extdb-dotnet:latest
+    container_name: aqsplugin-extdb-dotnet
+    restart: unless-stopped
+    ports:
+      # Host 9001 avoids clashing with other services already bound to 8000/9000 on the host.
+      - "9001:8000"
+    environment:
+      # Required
+      PLUGIN_API_KEY: "change-me-to-a-long-random-value"
+      ENCRYPTION_KEY: "change-me-to-a-different-long-random-value"
+
+      # Server
+      PORT: "8000"
+
+      # Connection pooling (native ADO.NET pooling per provider)
+      POOL_ENABLED: "true"
+      POOL_MIN_SIZE: "2"
+      POOL_MAX_SIZE: "10"
+      POOL_TIMEOUT: "30"
+
+      # Optional CIDR/IP allowlist, comma-separated. Empty = allow all.
+      ALLOWED_IPS: ""
+    volumes:
+      - extdb-data:/data
+    networks:
+      - oracle-ha-net
+
+volumes:
+  extdb-data:
+
+networks:
+  oracle-ha-net:
+    external: true
